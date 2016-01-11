@@ -9,9 +9,11 @@ public class CameraController : MonoBehaviour {
 
 	// 距離
 	public float	cDistanceXZ;
+	public float	cDistanceXZ_Bird;
 
 	// 注視点オフセット
 	public Vector3	cAtOffset;
+	public Vector3	cAtOffset_Bird;
 
 	// ヨー回転
 	public float	cRotYaw_Kd;
@@ -20,6 +22,7 @@ public class CameraController : MonoBehaviour {
 
 	// ピッチ回転
 	public float	cRotPit;
+	public float	cRotPit_Bird;
 
 	//----------------------------------
 	// 変数
@@ -50,6 +53,9 @@ public class CameraController : MonoBehaviour {
 	}
 
 	void LateUpdate() {
+		// トリ
+		float birdRt = mPlayer.GetComponent<Player>().getBirdRt();
+
 		// ヨー回転
 		{
 			// ダンパ
@@ -84,17 +90,20 @@ public class CameraController : MonoBehaviour {
 		// 注視位置
 		Vector3 atPos; {
 			atPos  = mPlayer.transform.position;
-			atPos += Vector3.up * cAtOffset.y;
-			atPos += mFwdDirXZ * cAtOffset.z;
+			Vector3 atOffset = Vector3.Lerp (cAtOffset, cAtOffset_Bird, birdRt);
+			atPos += Vector3.up * atOffset.y;
+			atPos += mFwdDirXZ * atOffset.z;
 		}
 
 		// 位置
 		Vector3 pos; {
 			Vector3 left = Vector3.Cross (Vector3.up, mFwdDirXZ);
 			Vector3 dir_xz = -mFwdDirXZ;
-			Vector3 dir = Quaternion.AngleAxis (cRotPit, left) * dir_xz;
+			float rotPit = Mathf.Lerp (cRotPit, cRotPit_Bird, birdRt);
+			Vector3 dir = Quaternion.AngleAxis (rotPit, left) * dir_xz;
 			float dot = Vector3.Dot (dir, dir_xz);
-			float scale = cDistanceXZ / dot;
+			float distanceXZ = Mathf.Lerp (cDistanceXZ, cDistanceXZ_Bird, birdRt);
+			float scale = distanceXZ / dot;
 			pos = atPos + dir * scale;
 		}
 
