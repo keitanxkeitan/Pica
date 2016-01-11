@@ -88,6 +88,9 @@ public class MeshGenerator : MonoBehaviour {
 		wallMesh.triangles = wallTriangles.ToArray ();
 		walls.mesh = wallMesh;
 
+		if (walls.gameObject.GetComponent<MeshCollider> ()) {
+			Destroy (walls.gameObject.GetComponent<MeshCollider> ());
+		}
 		MeshCollider wallCollider = walls.gameObject.AddComponent<MeshCollider> ();
 		wallCollider.sharedMesh = wallMesh;
 	}
