@@ -222,7 +222,7 @@ GameObject:
   - 114: {fileID: 341266587}
   - 54: {fileID: 341266592}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -385,6 +385,7 @@ GameObject:
   - 92: {fileID: 1314589733}
   - 124: {fileID: 1314589732}
   - 81: {fileID: 1314589731}
+  - 114: {fileID: 1314589736}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -459,6 +460,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &1314589736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1314589730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 483ebc3530620453d9a4676aba04c2eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cDistanceXZ: 5
+  cAtOffset: {x: 0, y: 0, z: 0}
+  cRotYaw_Kd: 0.925
+  cRotYaw_Vel: 3
+  cRotYaw_Acc: 0.3
+  cRotPit: 17.5
+  mPlayer: {fileID: 341266586}
 --- !u!1 &1665767487
 GameObject:
   m_ObjectHideFlags: 0
