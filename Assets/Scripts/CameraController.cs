@@ -29,8 +29,8 @@ public class CameraController : MonoBehaviour {
 	public GameObject	mPlayer;
 
 	// 前方向 XZ
-	private Vector3	mFrontDirXZ_Org;
-	private Vector3	mFrontDirXZ;
+	private Vector3	mFwdDirXZ_Org;
+	private Vector3	mFwdDirXZ;
 
 	// ヨー回転
 	private float	mRotYaw;
@@ -39,10 +39,10 @@ public class CameraController : MonoBehaviour {
 
 	void Start() {
 		// 前方向 XZ
-		mFrontDirXZ_Org   = mPlayer.transform.forward;
-		mFrontDirXZ_Org.y = 0.0f;
-		mFrontDirXZ_Org.Normalize ();
-		mFrontDirXZ       = mFrontDirXZ_Org;
+		mFwdDirXZ_Org   = mPlayer.transform.forward;
+		mFwdDirXZ_Org.y = 0.0f;
+		mFwdDirXZ_Org.Normalize ();
+		mFwdDirXZ       = mFwdDirXZ_Org;
 
 		// ヨー回転
 		mRotYaw     = 0.0f;
@@ -77,21 +77,21 @@ public class CameraController : MonoBehaviour {
 
 		// 前方向 XZ
 		{
-			mFrontDirXZ = Quaternion.AngleAxis (mRotYaw, Vector3.up) * mFrontDirXZ_Org;
-			mFrontDirXZ.Normalize ();
+			mFwdDirXZ = Quaternion.AngleAxis (mRotYaw, Vector3.up) * mFwdDirXZ_Org;
+			mFwdDirXZ.Normalize ();
 		}
 
 		// 注視位置
 		Vector3 atPos; {
 			atPos  = mPlayer.transform.position;
 			atPos += Vector3.up * cAtOffset.y;
-			atPos += mFrontDirXZ * cAtOffset.z;
+			atPos += mFwdDirXZ * cAtOffset.z;
 		}
 
 		// 位置
 		Vector3 pos; {
-			Vector3 left = Vector3.Cross (Vector3.up, mFrontDirXZ);
-			Vector3 dir_xz = -mFrontDirXZ;
+			Vector3 left = Vector3.Cross (Vector3.up, mFwdDirXZ);
+			Vector3 dir_xz = -mFwdDirXZ;
 			Vector3 dir = Quaternion.AngleAxis (cRotPit, left) * dir_xz;
 			float dot = Vector3.Dot (dir, dir_xz);
 			float scale = cDistanceXZ / dot;
@@ -101,5 +101,9 @@ public class CameraController : MonoBehaviour {
 		// 更新
 		transform.position = pos;
 		transform.LookAt (atPos);
+	}
+
+	public Vector3 getFwdDirXZ() {
+		return mFwdDirXZ;
 	}
 }
